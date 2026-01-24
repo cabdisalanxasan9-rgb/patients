@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 flex items-start justify-center py-10">
+
+  <div class="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-gray-200">
+
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-teal-600 to-blue-600 rounded-t-2xl px-8 py-5">
+      <h2 class="text-2xl font-bold text-white">
+        Medical Prescription
+      </h2>
+      <p class="text-teal-100 text-sm mt-1">
+        Patient: <span class="font-semibold">{{ appointment.patient }}</span>
+      </p>
+    </div>
+
+    <!-- Form -->
+    <div class="p-8">
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Appointment Info (Display Only) -->
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <p class="text-sm text-gray-600 mb-1">Appointment:</p>
+          <p class="text-lg font-semibold text-gray-800">
+            {{ appointment.patient }} - {{ appointment.date|date:"M d, Y" }} at {{ appointment.time }}
+          </p>
+          <p class="text-sm text-gray-600 mt-1">Doctor: {{ appointment.doctor }}</p>
+        </div>
+
+        <!-- Medicine Selection -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Dawo (Medicine)
+          </label>
+          {{ form.medicine }}
+          {% if form.medicine.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.medicine.errors }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Quantity -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Tirada (Quantity)
+          </label>
+          {{ form.quantity }}
+          {% if form.quantity.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.quantity.errors }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Diagnosis -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Diagnosis
+          </label>
+          {{ form.diagnosis }}
+          {% if form.diagnosis.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.diagnosis.errors }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Dosage -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Dosage
+          </label>
+          {{ form.dosage }}
+          {% if form.dosage.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.dosage.errors }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Display Messages -->
+        {% if messages %}
+          <div class="space-y-2">
+            {% for message in messages %}
+              <div class="p-3 rounded-lg {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- Buttons -->
+        <div class="flex items-center justify-between pt-6 border-t">
+          <!-- Back Button -->
+          <a href="{% url 'appointment_list' %}"
+             class="text-teal-700 hover:text-teal-900 font-medium shadow-md hover:bg-gray-100 bg-gray-100 px-4 py-2 rounded-xl">
+             Back
+          </a>
+
+          <div class="flex gap-3">
+            <!-- Prescription Save -->
+            <button type="submit"
+              class="px-6 py-2 rounded-xl bg-teal-600 text-white font-semibold
+                     shadow-md hover:bg-teal-700 focus:ring-4
+                     focus:ring-teal-300 transition">
+              Save Prescription
+            </button>
+
+            <!-- Remove Patient Button -->
+            <a href="{% url 'patient_delete' appointment.patient.id %}"
+             onclick="return confirm('Are you sure you want to remove this patient?')"
+               class="px-6 py-2 rounded-xl bg-red-500 text-white font-semibold
+                      shadow-md hover:bg-red-600 transition">
+              Remove Patient
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

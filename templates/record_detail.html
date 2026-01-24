@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-10">
+    
+    <div class="flex justify-between items-center mb-6 no-print">
+    
+    <!-- Back Arrow -->
+    <a href="{% url 'record_list' %}"
+       class="text-gray-600 hover:text-blue-600 transition p-2 rounded-full hover:bg-gray-100"
+       title="Back">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-6 w-6"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor"
+             stroke-width="2">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 19l-7-7 7-7" />
+        </svg>
+    </a>
+        <button onclick="window.print()" class="bg-gray-800 hover:bg-black text-white px-4 py-2 rounded-lg flex items-center shadow-md transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            Print Report
+        </button>
+    </div>
+
+    <div class="bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100" id="printableArea">
+        
+        <div class="bg-blue-600 p-8 text-white flex justify-between items-start">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight">MEDICAL RECORD</h1>
+                <p class="text-blue-100 mt-1">Visit Date: {{ record.visit_date|date:"F d, Y - H:i" }}</p>
+            </div>
+            <div class="text-right">
+                <p class="text-xl font-semibold">{{ record.patient.full_name }}</p>
+                <p class="text-blue-100 text-sm">Patient Code: {{ record.patient.patient_code }}</p>
+            </div>
+        </div>
+
+        <div class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10 pb-8 border-b border-gray-100">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Attending Physician</h3>
+                    <p class="text-lg font-bold text-gray-800">Dr. {{ record.doctor.name }}</p>
+                    <p class="text-blue-600 font-medium">{{ record.doctor.specialization }}</p>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Patient Demographics</h3>
+                    <p class="text-gray-700"><span class="font-semibold">Age:</span> {{ record.patient.age }} years</p>
+                    <p class="text-gray-700"><span class="font-semibold">Gender:</span> {{ record.patient.get_gender_display }}</p>
+                </div>
+            </div>
+
+            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                <span class="w-2 h-6 bg-blue-600 rounded-full mr-3"></span>
+                Vital Signs
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <p class="text-xs text-gray-500 font-bold uppercase">Blood Pressure</p>
+                    <p class="text-xl font-bold text-blue-700">{{ record.blood_pressure }} <span class="text-xs text-gray-400 font-normal">mmHg</span></p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <p class="text-xs text-gray-500 font-bold uppercase">Heart Rate</p>
+                    <p class="text-xl font-bold text-red-600">{{ record.heart_rate }} <span class="text-xs text-gray-400 font-normal">BPM</span></p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <p class="text-xs text-gray-500 font-bold uppercase">Temperature</p>
+                    <p class="text-xl font-bold text-orange-600">{{ record.temperature }} <span class="text-xs text-gray-400 font-normal">°C</span></p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <p class="text-xs text-gray-500 font-bold uppercase">Weight</p>
+                    <p class="text-xl font-bold text-green-700">{{ record.weight }} <span class="text-xs text-gray-400 font-normal">kg</span></p>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Chief Complaints / Symptoms</h3>
+                    <div class="bg-blue-50/50 p-4 rounded-lg text-gray-700 border-l-4 border-blue-400">
+                        {{ record.symptoms|linebreaks }}
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Clinical Diagnosis</h3>
+                    <div class="bg-green-50/50 p-4 rounded-lg text-gray-700 border-l-4 border-green-400">
+                        <p class="font-bold text-green-800">{{ record.diagnosis }}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Treatment & Management Plan</h3>
+                    <div class="bg-gray-50 p-4 rounded-lg text-gray-700 border border-gray-200">
+                        {{ record.treatment_plan|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-50 p-6 text-center border-t border-gray-100">
+            <p class="text-xs text-gray-400 uppercase tracking-widest">Electronic Medical Record - System Generated</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media print {
+        .no-print { display: none; }
+        body { background: white; }
+        .container { width: 100%; max-width: 100%; padding: 0; }
+        .shadow-2xl { shadow: none; box-shadow: none; }
+    }
+</style>
+{% endblock %}

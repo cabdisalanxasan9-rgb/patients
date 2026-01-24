@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-blue-50 py-10 px-4">
+
+  <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center px-8 py-6
+                bg-gradient-to-r from-blue-600 to-indigo-600">
+      <h1 class="text-3xl font-bold text-white tracking-wide">
+        Doctors
+      </h1>
+
+      <a href="{% url 'add_doctor' %}"
+         class="bg-white text-blue-600 font-semibold
+                px-5 py-2 rounded-full shadow
+                hover:bg-blue-50 transition">
+        + Add Doctor
+      </a>
+    </div>
+
+    <!-- List -->
+    <div class="p-6">
+      <ul class="space-y-4">
+
+        {% for doctor in doctors %}
+        <li class="border border-blue-100 p-4 rounded-xl
+                   flex items-center justify-between
+                   hover:shadow-md transition">
+
+          <div class="flex items-center space-x-4">
+            {% if doctor.profile_image %}
+              <img src="{{ doctor.profile_image.url }}"
+                   alt="{{ doctor.first_name }}"
+                   class="w-16 h-16 rounded-full object-cover border-2 border-blue-500"/>
+            {% else %}
+              <div class="w-16 h-16 rounded-full bg-blue-100
+                          flex items-center justify-center
+                          text-blue-600 font-semibold">
+                N/A
+              </div>
+            {% endif %}
+
+            <div>
+              <p class="font-semibold text-gray-800">
+                Dr. {{ doctor.first_name }} {{ doctor.last_name }}
+              </p>
+              <p class="text-blue-600 text-sm">
+                {{ doctor.specialization }}
+              </p>
+            </div>
+          </div>
+
+          <a href="{% url 'delete_doctor' doctor.pk %}"
+             class="bg-red-500 text-white px-4 py-2 rounded-lg
+                    hover:bg-red-600 transition"
+             onclick="return confirm('Are you sure?')">
+            Delete
+          </a>
+
+        </li>
+        {% empty %}
+        <li class="text-center text-gray-500 italic py-6">
+          No doctors available.
+        </li>
+        {% endfor %}
+
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

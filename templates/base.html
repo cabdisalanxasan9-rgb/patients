@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare - Patient Management System</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    
+
+
+     
+    <style>
+        .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+        .sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 10px; }
+        .sidebar-scroll::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.5); }
+        .active-link { background: linear-gradient(to right, #3b82f6, #4f46e5) !important; color: white !important; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3); }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+<html lang="en" class="dark">
+<body class="dark bg-gray-900 text-gray-100">
+
+
+<div class="flex h-screen overflow-hidden">
+
+    {% if user.is_authenticated %}
+    <aside class="w-72 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 border-r border-gray-200/50 flex flex-col shadow-xl hidden md:flex z-50 relative overflow-hidden">
+        
+        <!-- Decorative background elements -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-200/20 to-indigo-200/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-200/20 to-pink-200/20 rounded-full blur-3xl -ml-24 -mb-24"></div>
+        
+        <div class="h-20 flex items-center px-8 border-b border-gray-200/50 backdrop-blur-sm bg-white/30 relative z-10">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-hospital text-xl text-blue-600"></i>
+
+                </div>
+                <span class="text-2xl font-bold tracking-tight italic text-blue-600">
+                    HealthCare
+                </span>
+
+            </div>
+        </div>
+
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto sidebar-scroll relative z-10">
+    <p class="px-4 text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-4 relative z-10">Main Menu</p>
+
+    <a href="{% url 'dashbord' %}" 
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {% if request.resolver_match.url_name == 'dashbord' %}active-link bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30{% else %}text-gray-800 hover:bg-white/70 hover:shadow-md backdrop-blur-sm hover:text-blue-600{% endif %}">
+        <i class="fa-solid fa-chart-pie w-5 text-center {% if request.resolver_match.url_name == 'dashbord' %}text-white{% else %}text-blue-500{% endif %}"></i>
+        <span class="font-semibold">Dashboard</span>
+    </a>
+
+    <a href="{% url 'patient_list' %}" 
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {% if request.resolver_match.url_name == 'patient_list' %}active-link bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30{% else %}text-gray-800 hover:bg-white/70 hover:shadow-md backdrop-blur-sm hover:text-blue-600{% endif %}">
+        <i class="fa-solid fa-user-injured w-5 text-center {% if request.resolver_match.url_name == 'patient_list' %}text-white{% else %}text-blue-500{% endif %}"></i>
+        <span class="font-semibold">Patients</span>
+    </a>
+
+    <a href="{% url 'appointment_list' %}" 
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {% if request.resolver_match.url_name == 'appointment_list' %}active-link bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30{% else %}text-gray-800 hover:bg-white/70 hover:shadow-md backdrop-blur-sm hover:text-blue-600{% endif %}">
+        <i class="fa-solid fa-calendar-check w-5 text-center {% if request.resolver_match.url_name == 'appointment_list' %}text-white{% else %}text-blue-500{% endif %}"></i>
+        <span class="font-semibold">Appointments</span>
+    </a>
+
+    <a href="{% url 'record_list' %}" 
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {% if request.resolver_match.url_name == 'record_list' %}active-link bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30{% else %}text-gray-800 hover:bg-white/70 hover:shadow-md backdrop-blur-sm hover:text-blue-600{% endif %}">
+        <i class="fa-solid fa-notes-medical w-5 text-center {% if request.resolver_match.url_name == 'record_list' %}text-white{% else %}text-blue-500{% endif %}"></i>
+        <span class="font-semibold">Medical Records</span>
+    </a>
+
+    <a href="{% url 'medicine_list' %}" 
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {% if request.resolver_match.url_name == 'medicine_list' %}active-link bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30{% else %}text-gray-800 hover:bg-white/70 hover:shadow-md backdrop-blur-sm hover:text-blue-600{% endif %}">
+        <i class="fa-solid fa-pills w-5 text-center {% if request.resolver_match.url_name == 'medicine_list' %}text-white{% else %}text-blue-500{% endif %}"></i>
+        <span class="font-semibold">Medicine</span>
+    </a>
+
+    <a href="{% url 'doctor_list' %}" 
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {% if request.resolver_match.url_name == 'doctor_list' %}active-link bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30{% else %}text-gray-800 hover:bg-white/70 hover:shadow-md backdrop-blur-sm hover:text-blue-600{% endif %}">
+        <i class="fa-solid fa-user-doctor w-5 text-center {% if request.resolver_match.url_name == 'doctor_list' %}text-white{% else %}text-blue-500{% endif %}"></i>
+        <span class="font-semibold">Doctors</span>
+    </a>
+
+    <a href="{% url 'prescription_list' %}" 
+       class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group {% if request.resolver_match.url_name == 'prescription_list' %}active-link bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30{% else %}text-gray-800 hover:bg-white/70 hover:shadow-md backdrop-blur-sm hover:text-blue-600{% endif %}">
+        <i class="fa-solid fa-file-prescription w-5 text-center {% if request.resolver_match.url_name == 'prescription_list' %}text-white{% else %}text-blue-500{% endif %}"></i>
+        <span class="font-semibold">Prescription</span>
+    </a>
+</nav>
+
+
+        <div class="p-4 border-t border-gray-200/50 backdrop-blur-sm bg-white/30 relative z-10">
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-white/70 backdrop-blur-md mb-4 border border-white/50 shadow-md">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg">
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-bold text-gray-900 truncate">{{ user.username }}</p>
+                    <p class="text-[10px] text-blue-600 font-bold uppercase tracking-widest">Administrator</p>
+                </div>
+            </div>
+            
+            <div class="px-2 pb-2">
+                <a href="{% url 'logout' %}" 
+                   class="group flex items-center justify-start w-full h-12 bg-gradient-to-r from-red-50 to-pink-50 hover:from-red-500 hover:to-red-600 rounded-xl cursor-pointer relative overflow-hidden transition-all duration-300 shadow-md hover:shadow-lg border border-red-100 hover:border-red-500">
+                    <div class="flex items-center justify-center w-12 h-12 text-red-600 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-right-from-bracket text-lg"></i>
+                    </div>
+                    <span class="text-red-600 group-hover:text-white font-bold text-sm transition-colors duration-300">Logout</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+    {% endif %}
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        
+        {% if user.is_authenticated %}
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 md:hidden">
+            <div class="flex items-center gap-2 font-bold text-xl text-brand-700">
+                <i class="fa-solid fa-hospital"></i>
+                <span>HealthCare</span>
+            </div>
+            <button class="text-gray-600 p-2 hover:bg-gray-100 rounded-lg"><i class="fa-solid fa-bars text-xl"></i></button>
+        </header>
+        {% endif %}
+
+        <main class="flex-1 overflow-x-hidden overflow-y-auto {% if not user.is_authenticated %} bg-[#ebf2ff] flex items-center justify-center {% else %} bg-gray-50 p-6 md:p-8 {% endif %}">
+            <div class="{% if user.is_authenticated %} max-w-7xl mx-auto w-full {% else %} w-full flex justify-center {% endif %}">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+</div>
+
+
+</body>
+</html>

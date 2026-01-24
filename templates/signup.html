@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-[#ebf2ff] px-4">
+
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-500 px-8 py-6 text-center text-white">
+      <h1 class="text-xl font-bold">Create Account</h1>
+      <p class="text-blue-100 text-xs mt-1">Register new user</p>
+    </div>
+
+    <!-- Form -->
+    <form method="post" class="px-8 py-6 space-y-4">
+      {% csrf_token %}
+
+      {% for field in form %}
+      <div class="space-y-1">
+        <label class="text-sm font-medium text-gray-600">
+          {{ field.label }}
+        </label>
+        {{ field }}
+        {% if field.errors %}
+          <p class="text-red-500 text-xs">{{ field.errors.0 }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700
+               text-white font-semibold py-2.5 rounded-lg
+               transition">
+        Sign Up
+      </button>
+
+      <p class="text-center text-xs text-gray-500 mt-4">
+        Already have an account?
+        <a href="{% url 'login' %}" class="text-blue-600 font-semibold hover:underline">
+          Login
+        </a>
+      </p>
+    </form>
+
+  </div>
+</div>
+
+<style>
+input {
+  width: 100% !important;
+  padding: 0.55rem 0.9rem !important;
+  background-color: #f1f5f9 !important;
+  border-radius: 0.6rem !important;
+  border: 1px solid #dbeafe !important;
+  font-size: 0.9rem !important;
+  outline: none !important;
+}
+
+input:focus {
+  background-color: #ffffff !important;
+  border-color: #3b82f6 !important;
+}
+</style>
+
+{% endblock %}

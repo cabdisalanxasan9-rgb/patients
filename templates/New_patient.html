@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-5xl mx-auto mt-10 p-6 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 shadow-xl rounded-2xl">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Patients</h2>
+        <a href="{% url 'patient_list' %}"
+           class="inline-block px-6 py-3 bg-rose-400 text-white font-semibold rounded-md relative overflow-hidden
+                  hover:bg-rose-500 transition-colors duration-300 text-lg shadow-md hover:shadow-lg">
+            Add Patient
+        </a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+            <thead class="bg-rose-200 text-gray-700 uppercase text-sm font-semibold">
+                <tr>
+                    <th class="px-6 py-3 text-left">Name</th>
+                    <th class="px-6 py-3 text-left">Phonee</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in patients %}
+                <tr class="border-b hover:bg-rose-50 transition-colors duration-200 cursor-pointer">
+                    <td class="px-6 py-4">
+                        <a href="{% url 'patient_detail' p.id %}" class="text-blue-600 hover:underline font-medium">
+                            {{ p }}
+                        </a>
+                    </td>
+                    <td class="px-6 py-4 text-gray-700">{{ p.phone }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" class="px-6 py-4 text-center text-gray-500 italic">No patients found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-5xl mx-auto mt-10 p-6 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 shadow-xl rounded-2xl">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">Medicine List</h2>
+        <a href="{% url 'medicine_add' %}"
+           class="bg-teal-600 text-white px-5 py-2 rounded-full hover:bg-teal-700 transition">
+            💊 Add Medicine
+        </a>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 shadow-lg rounded-lg overflow-hidden">
+
+            <thead class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 text-gray-700 text-sm uppercase tracking-wider">
+                <tr>
+                    <th class="px-6 py-3 text-left">Name</th>
+                    <th class="px-6 py-3 text-left">Quantity</th>
+                    <th class="px-6 py-3 text-left">Price</th>
+                    <th class="px-6 py-3 text-left">Status</th>
+                    <th class="px-6 py-3 text-center">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for medicine in medicines %}
+                <tr class="hover:bg-indigo-50 transition">
+
+                    <!-- Name -->
+                    <td class="px-6 py-4 font-medium text-gray-800">
+                        {{ medicine.name }}
+                    </td>
+
+                    <!-- Quantity -->
+                    <td class="px-6 py-4 text-gray-700">
+                        {{ medicine.quantity }}
+                    </td>
+
+                    <!-- Price -->
+                    <td class="px-6 py-4 text-gray-700">
+                        ${{ medicine.price }}
+                    </td>
+
+                    <!-- Status -->
+                    <td class="px-6 py-4">
+                        {% if medicine.quantity == 0 %}
+                            <span class="px-3 py-1 rounded-full text-xs bg-red-100 text-red-700 font-semibold">
+                                ❌ Out of Stock
+                            </span>
+                        {% elif medicine.quantity <= 5 %}
+                            <span class="px-3 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700 font-semibold">
+                                ⚠ Low Stock
+                            </span>
+                        {% else %}
+                            <span class="px-3 py-1 rounded-full text-xs bg-green-100 text-green-700 font-semibold">
+                                ✅ In Stock
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="px-6 py-4 text-center">
+                        <div class="flex justify-center gap-2">
+
+                            <!-- View -->
+                            <a href="{% url 'medicine_detail' medicine.pk %}"
+                               class="px-3 py-1.5 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold
+                                      hover:bg-blue-600 hover:text-white transition">
+                                👁 View
+                            </a>
+
+                            
+                            <!-- Sell -->
+                            {% if medicine.quantity == 0 %}
+                                
+                               
+                            {% else %}
+                                
+                            {% endif %}
+
+                        </div>
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="px-6 py-6 text-center text-gray-500 italic">
+                        No medicines found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

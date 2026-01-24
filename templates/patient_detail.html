@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h2>Patient Detail</h2>
+
+
+<div class="card mb-3">
+<div class="card-body">
+<h4 class="card-title">{{ patient.first_name }} {{ patient.last_name }}</h4>
+<p class="card-text"><strong>Phone:</strong> {{ patient.phone }}</p>
+
+
+<a href="{% url 'patient_update' patient.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'patient_delete' patient.id %}" class="btn btn-danger">Delete</a>
+<a href="{% url 'patient_list' %}" class="btn btn-secondary">Back</a>
+
+<a href="{% url 'patient_report' patient.id %}"
+   class="btn btn-success">
+   Download PDF Report
+</a>
+
+
+</div>
+</div>
+
+
+<h3>Appointments</h3>
+
+
+<a href="{% url 'appointment_create' %}" class="btn btn-primary mb-2">Add Appointment</a>
+
+
+<table class="table">
+<tr>
+<th>Doctor</th>
+<th>Date</th>
+<th>Time</th>
+<th>Status</th>
+<th>Prescription</th>
+</tr>
+
+
+{% for a in appointments %}
+<tr>
+<td>{{ a.doctor }}</td>
+<td>{{ a.date }}</td>
+<td>{{ a.time }}</td>
+<td>{{ a.status }}</td>
+<td>
+{% if a.prescription %}
+✔️
+{% else %}
+<a href="{% url 'prescription_create' a.id %}" class="btn btn-sm btn-success">Add Prescription</a>
+{% endif %}
+</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="5">No appointments for this patient</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
