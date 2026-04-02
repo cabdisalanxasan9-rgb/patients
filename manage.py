@@ -3,6 +3,15 @@
 import os
 import sys
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'patient.settings')
+
+from django.core.wsgi import get_wsgi_application
+
+# Fallback for platforms that try to load Django app from manage.py directly.
+application = get_wsgi_application()
+app = application
+handler = application
+
 
 def main():
     """Run administrative tasks."""
