@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,9 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6883#ko4avt9a(=l3wphh&-v_ar$6=&@9zcr!a_3=wlarfh5@k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['amran-34e2.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '.vercel.app',
+]
+
+if os.getenv('ALLOWED_HOSTS'):
+    ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', '').split(',') if host.strip()]
 
 
 # Application definition
@@ -120,24 +128,11 @@ STATIC_URL = 'static/'
 
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
-
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-import os
-
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
-
-MEDIA_ROOT = r"C:\Patients"
-MEDIA_URL = "/media/"
 
 
 LOGIN_URL = 'login'
