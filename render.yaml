@@ -3,7 +3,7 @@ services:
     name: patient
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+    buildCommand: npm install && npm run build:css && pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
     startCommand: gunicorn patient.wsgi:application
     envVars:
       - key: DEBUG
