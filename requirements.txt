@@ -1,4 +1,3 @@
-## Vercel-compatible clean requirements file
 Django==5.2.7
 django-cors-headers==4.9.0
 django-widget-tweaks==1.5.0
